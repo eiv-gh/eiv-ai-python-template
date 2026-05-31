@@ -7,4 +7,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . ./
 
-CMD ["python", "main.py"]
+# CMD ["python", "src/bin/check.py"]
+# CMD ["python", "src/bin/main.py"]

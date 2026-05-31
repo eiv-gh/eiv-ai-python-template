@@ -10,7 +10,7 @@ from sqlalchemy import create_engine, text
 
 load_dotenv()
 
-PROJECT_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 def get_required_env(name: str) -> str:
