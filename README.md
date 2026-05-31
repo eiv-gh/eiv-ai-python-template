@@ -4,7 +4,7 @@
 
 ## 目录说明
 
-- `main.py`：项目主入口，包含示例数据生成、数据库连接、保存数据与绘图逻辑。
+- `check.py`：项目主入口，包含示例数据生成、数据库连接、保存数据与绘图逻辑。
 - `Dockerfile`：用于构建 Python 应用容器。
 - `docker-compose.yml`：启动数据库与应用的容器编排文件。
 - `requirements.txt`：Python 依赖清单。
@@ -30,7 +30,7 @@
   - 修改容器名称
   - 修改用户名和密码
   - 如需要，修改端口映射
-- `main.py`
+- `check.py`
   - 替换示例数据逻辑
   - 改成你的真实数据读取、清洗、分析与可视化逻辑
 - `requirements.txt`
@@ -86,7 +86,7 @@ services:
       - "5432:5432"
 ```
 
-如果你还想让 `main.py` 使用新的数据库名或用户名，请同时确认 `docker-compose.yml` 中的环境变量和 `main.py` 中读取到的值保持一致。
+如果你还想让 `check.py` 使用新的数据库名或用户名，请同时确认 `docker-compose.yml` 中的环境变量和 `check.py` 中读取到的值保持一致。
 
 ## 新项目初始化 checklist
 
@@ -97,7 +97,7 @@ services:
 - [ ] 修改 `docker-compose.yml` 中的数据库名
 - [ ] 修改 `docker-compose.yml` 中的用户名和密码
 - [ ] 根据需要修改端口映射
-- [ ] 修改 `main.py`，替换示例数据逻辑
+- [ ] 修改 `check.py`，替换示例数据逻辑
 - [ ] 根据新项目需要更新 `requirements.txt`
 - [ ] 视情况复制 `.env.example` 为 `.env`
 - [ ] 运行 `docker compose up --build`
@@ -119,7 +119,7 @@ POSTGRES_PASSWORD=analytics
 
 ## 数据库说明
 
-当前模板会启动一个 PostgreSQL 容器，并通过 `main.py` 连接它。
+当前模板会启动一个 PostgreSQL 容器，并通过 `check.py` 连接它。
 
 默认数据库配置：
 
@@ -147,7 +147,7 @@ POSTGRES_PASSWORD=analytics
 - `Dockerfile`
 - `docker-compose.yml`
 - `requirements.txt`
-- `main.py`
+- `check.py`
 - `.env.example`
 - `README.md`
 
@@ -193,7 +193,7 @@ git push
 
 你本地开发时，通常只需要：
 
-- 修改 `main.py`
+- 修改 `check.py`
 - 修改 `requirements.txt`
 - 修改 `docker-compose.yml`
 - 重新运行 `docker compose up --build`
@@ -233,7 +233,7 @@ git push
 
 ### 3. 数据库连接失败
 
-请确认 `docker-compose.yml` 中的数据库配置和 `main.py` 中读取到的环境变量一致。
+请确认 `docker-compose.yml` 中的数据库配置和 `check.py` 中读取到的环境变量一致。
 
 ## 许可证
 
