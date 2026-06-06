@@ -129,112 +129,17 @@ POSTGRES_PASSWORD=analytics
 - 用户名：`analytics`
 - 密码：`analytics`
 
-## 项目运行说明
+# 运行 app 服务（执行默认 command）  
+docker-compose run app
 
-启动完成后，程序会：
+# 运行 app 服务，但覆盖命令  
+docker-compose run app python src/bin/check.py
 
-1. 创建必要目录
-2. 读取或生成示例数据
-3. 打印数据预览和统计摘要
-4. 测试数据库连接
-5. 将数据保存到 PostgreSQL
-6. 生成示例图表
+# 运行 app 服务，进入交互式终端  
+docker-compose run app bash
 
-## 同步给同事
+# 运行完后自动删除容器（推荐，避免残留）  
+docker-compose run --rm app
 
-建议同步以下内容给同事：
-
-- `Dockerfile`
-- `docker-compose.yml`
-- `requirements.txt`
-- `check.py`
-- `.env.example`
-- `README.md`
-
-### 同事如何拉取并运行
-
-如果你们使用 Git，建议同事按下面流程操作：
-
-```powershell
-git clone <你的仓库地址>
-cd <项目文件夹>
-docker compose up --build
-```
-
-如果同事只是拿到一份已经复制好的项目目录，也可以直接：
-
-```powershell
-cd <项目文件夹>
-docker compose up --build
-```
-
-### 修改后如何提交
-
-如果你在本地改了项目，请按下面方式提交：
-
-```powershell
-git status
-git add .
-git commit -m "更新项目模板或业务逻辑"
-git push
-```
-
-建议提交前先检查是否有不该提交的本地文件，例如：
-
-- `.env`
-- `__pycache__`
-- 生成的图表文件
-- 数据文件
-- 本地临时日志
-
-### 本地开发 vs 同事同步
-
-#### 本地开发
-
-你本地开发时，通常只需要：
-
-- 修改 `check.py`
-- 修改 `requirements.txt`
-- 修改 `docker-compose.yml`
-- 重新运行 `docker compose up --build`
-
-#### 同事同步
-
-同事同步时，建议只同步以下内容：
-
-- 代码
-- `Dockerfile`
-- `docker-compose.yml`
-- `requirements.txt`
-- `README.md`
-
-不要直接同步：
-
-- `.env`
-- 本地生成的数据文件
-- 本地缓存目录
-- 不必要的临时输出
-
-## 维护建议
-
-- 每次新增依赖时，请更新 `requirements.txt`
-- 每次修改运行逻辑时，请同步更新 `README.md`
-- 每次新建项目时，请优先复制这个模板，再按新项目名修改配置
-
-## 常见问题
-
-### 1. `docker` 命令找不到
-
-请先安装 Docker Desktop，并重新打开终端。
-
-### 2. 容器启动失败
-
-先检查 `docker compose version` 是否能正常输出版本信息。
-
-### 3. 数据库连接失败
-
-请确认 `docker-compose.yml` 中的数据库配置和 `check.py` 中读取到的环境变量一致。
-
-## 许可证
-
-本模板仅用于学习、原型开发和内部项目起步，具体使用方式请根据你们的项目规范调整。
+# 运行完后自动删除容器，并覆盖命令  
+docker-compose run --rm app python src/bin/check.py  
