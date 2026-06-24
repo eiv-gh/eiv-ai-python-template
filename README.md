@@ -1,145 +1,411 @@
-# 数据分析项目模板
+# 开发规范
 
-这是一个可复制的 Python 数据分析项目模板，适合用来快速开始新的数据分析或数据可视化项目。
+本项目采用：
 
-## 目录说明
-
-- `check.py`：项目主入口，包含示例数据生成、数据库连接、保存数据与绘图逻辑。
-- `Dockerfile`：用于构建 Python 应用容器。
-- `docker-compose.yml`：启动数据库与应用的容器编排文件。
-- `requirements.txt`：Python 依赖清单。
-- `.env.example`：环境变量模板。
-- `.gitignore`：忽略不应该提交到版本库的文件。
-
-## 快速开始
-
-### 1. 安装 Docker
-
-请先安装 Docker Desktop，并确保 `docker` 和 `docker compose` 命令可用。
-
-### 2. 复制模板
-
-复制当前项目目录，并将文件夹名称改为你的新项目名称。
-
-### 3. 修改配置
-
-在新项目中，建议先修改以下内容：
-
-- `docker-compose.yml`
-  - 修改数据库名
-  - 修改容器名称
-  - 修改用户名和密码
-  - 如需要，修改端口映射
-- `check.py`
-  - 替换示例数据逻辑
-  - 改成你的真实数据读取、清洗、分析与可视化逻辑
-- `requirements.txt`
-  - 根据项目需要增删依赖
-
-### 4. 启动项目
-
-在项目根目录执行：
-
-```powershell
-docker compose up --build
+```text
+Windows
+↓
+WSL
+↓
+VS Code Remote WSL
+↓
+Dev Container
+↓
+uv
+↓
+Python
 ```
 
-如果你本地没有 Docker，可以先安装 Docker Desktop，再重新运行以上命令。
+开发模式。
 
-## 项目命名建议
+---
 
-复制模板时，建议统一按下面的规则命名：
+## 目录规范
 
-- 文件夹名：使用英文小写、中划线或下划线
-- 容器名：使用项目名拼接，避免和其他项目冲突
-- 数据库名：尽量和项目名相关，且避免特殊字符
+### 项目目录
 
-推荐示例：
+所有项目统一存放于：
 
-- 项目文件夹：`customer_churn_analysis`
-- Postgres 容器名：`customer-churn-analysis-postgres`
-- 应用容器名：`customer-churn-analysis-app`
-- 数据库名：`customer_churn_analysis`
+```text
+/home/<user>/projects
+```
 
-## 如何替换数据库名
+例如：
 
-修改 `docker-compose.yml` 时，只需要替换以下几项：
+```text
+/home/isaacleekain/projects/workspaces_vscode/github/eiv/eiv-docker-template
+```
 
-1. `POSTGRES_DB`
-2. `POSTGRES_USER`
-3. `POSTGRES_PASSWORD`
-4. `container_name`
-5. 如需要，修改端口映射
+禁止：
+
+```text
+D:\Project\xxx
+```
+
+直接作为开发目录。
+
+原因：
+
+* 文件监听更稳定
+* Git 更快
+* Docker 更快
+* uv 更快
+* Dev Container 更稳定
+
+---
+
+## Git 规范
+
+### Git 运行位置
+
+Git 统一在 WSL 中运行。
+
+推荐：
+
+```bash
+git status
+git pull
+git push
+git checkout
+git switch
+```
+
+均在 WSL 终端执行。
+
+原则：
+
+```text
+WSL负责代码管理
+Container负责代码运行
+```
+
+---
+
+### 分支规范
+
+禁止直接向 main 提交。
+
+开发流程：
+
+```text
+main
+ └── feature/xxx
+
+main
+ └── fix/xxx
+
+main
+ └── refactor/xxx
+```
 
 示例：
 
-```yaml
-services:
-  db:
-    image: postgres:16
-    container_name: customer-churn-analysis-postgres
-    environment:
-      POSTGRES_DB: customer_churn_analysis
-      POSTGRES_USER: customer_churn_analysis_user
-      POSTGRES_PASSWORD: your_password
-    ports:
-      - "5432:5432"
+```bash
+git switch -c feature/user-login
 ```
 
-如果你还想让 `check.py` 使用新的数据库名或用户名，请同时确认 `docker-compose.yml` 中的环境变量和 `check.py` 中读取到的值保持一致。
-
-## 新项目初始化 checklist
-
-复制模板并开始新项目时，建议按下面顺序检查：
-
-- [ ] 复制模板文件夹并重命名
-- [ ] 修改 `docker-compose.yml` 中的容器名
-- [ ] 修改 `docker-compose.yml` 中的数据库名
-- [ ] 修改 `docker-compose.yml` 中的用户名和密码
-- [ ] 根据需要修改端口映射
-- [ ] 修改 `check.py`，替换示例数据逻辑
-- [ ] 根据新项目需要更新 `requirements.txt`
-- [ ] 视情况复制 `.env.example` 为 `.env`
-- [ ] 运行 `docker compose up --build`
-- [ ] 验证应用输出和数据库连接是否正常
-
-## 环境变量
-
-默认模板里提供了 `.env.example`，你可以复制一份为 `.env`，并按需填写：
-
-```env
-POSTGRES_HOST=localhost
-POSTGRES_PORT=5432
-POSTGRES_DB=analytics
-POSTGRES_USER=analytics
-POSTGRES_PASSWORD=analytics
+```bash
+git switch -c fix/jwt-expire
 ```
 
-> 当前模板里，`docker-compose.yml` 已经把数据库参数写进容器环境变量中，因此 `.env` 不是必须项，但建议保留用于本地调试和后续扩展。
+```bash
+git switch -c refactor/project-structure
+```
 
-## 数据库说明
+---
 
-当前模板会启动一个 PostgreSQL 容器，并通过 `check.py` 连接它。
+### Commit 规范
 
-默认数据库配置：
+推荐：
 
-- 主机：`db`
-- 端口：`5432`
-- 数据库名：`analytics`
-- 用户名：`analytics`
-- 密码：`analytics`
+```text
+feature: 新功能
+fix: 修复问题
+refactor: 重构
+docs: 文档
+test: 测试
+chore: 配置修改
+```
 
-# 运行 app 服务（执行默认 command）  
-docker-compose run app
+示例：
 
-# 运行 app 服务，但覆盖命令  
-docker-compose run app python src/bin/check.py
+```bash
+git commit -m "feature: add user login"
+```
 
-# 运行 app 服务，进入交互式终端  
-docker-compose run app bash
+```bash
+git commit -m "fix: resolve jwt validation bug"
+```
 
-# 运行完后自动删除容器（推荐，避免残留）  
-docker-compose run --rm app
+```bash
+git commit -m "docs: update readme"
+```
 
-# 运行完后自动删除容器，并覆盖命令  
-docker-compose run --rm app python src/bin/check.py  
+---
+
+## Python 规范
+
+### Python 运行位置
+
+统一在 Dev Container 中运行。
+
+禁止：
+
+```text
+WSL Python
+Windows Python
+```
+
+直接参与项目运行。
+
+原则：
+
+```text
+项目运行环境必须来自 Container
+```
+
+---
+
+### 虚拟环境
+
+统一使用：
+
+```text
+uv
+```
+
+管理。
+
+禁止：
+
+```bash
+pip install
+python -m venv
+```
+
+创建独立环境。
+
+统一使用：
+
+```bash
+uv sync
+```
+
+---
+
+### 运行程序
+
+推荐：
+
+```bash
+uv run python app/main.py
+```
+
+```bash
+uv run pytest
+```
+
+不强制：
+
+```bash
+source .venv/bin/activate
+```
+
+因为 uv 会自动处理虚拟环境。
+
+---
+
+## 依赖管理规范
+
+### 新增依赖
+
+```bash
+uv add package-name
+```
+
+---
+
+### 删除依赖
+
+```bash
+uv remove package-name
+```
+
+---
+
+### 更新锁文件
+
+```bash
+uv lock
+```
+
+---
+
+### 同步环境
+
+```bash
+uv sync
+```
+
+---
+
+## uv.lock 规范
+
+必须提交：
+
+```text
+uv.lock
+```
+
+原因：
+
+* 保证团队环境一致
+* 保证 CI/CD 环境一致
+* 保证测试结果一致
+
+禁止忽略：
+
+```gitignore
+uv.lock
+```
+
+---
+
+## Git Ignore 规范
+
+必须忽略：
+
+```gitignore
+.venv/
+.pytest_cache/
+__pycache__/
+*.pyc
+.env
+```
+
+禁止提交：
+
+```text
+虚拟环境
+缓存文件
+临时文件
+密钥文件
+```
+
+---
+
+## Dev Container 规范
+
+所有 Python 项目必须支持：
+
+```text
+Reopen in Container
+```
+
+原则：
+
+```text
+新成员 Clone
+↓
+Open Folder
+↓
+Reopen in Container
+↓
+uv sync
+↓
+立即开始开发
+```
+
+无需额外配置。
+
+---
+
+## SSH 规范
+
+SSH Key 统一存放：
+
+```text
+~/.ssh
+```
+
+推荐：
+
+```text
+id_rsa_github_eiv
+id_rsa_github_personal
+id_rsa_azuredevops
+```
+
+使用 SSH Config 管理：
+
+```ssh
+Host github-eiv
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_github_eiv
+```
+
+---
+
+## Codex 规范
+
+Codex CLI 统一在 WSL 中运行：
+
+```bash
+codex
+```
+
+推荐：
+
+```bash
+cd <project-root>
+codex
+```
+
+禁止：
+
+```text
+在 Windows 原生目录运行 Codex
+```
+
+---
+
+## 项目创建规范
+
+新项目必须从模板复制：
+
+```bash
+cp -r eiv-docker-template my-project
+```
+
+禁止：
+
+```text
+从零手工搭建开发环境
+```
+
+所有项目保持统一结构。
+
+---
+
+## 核心原则
+
+```text
+Git 在 WSL
+
+SSH 在 WSL
+
+Codex 在 WSL
+
+Docker 在 WSL
+
+Python 在 Container
+
+uv 在 Container
+
+测试在 Container
+
+运行在 Container
+```
+
+保持开发环境一致性优先于个人习惯。
