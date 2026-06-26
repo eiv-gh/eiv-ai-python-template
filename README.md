@@ -1,3 +1,5 @@
+# EIV AI Python Template
+A Python AI development template powered by uv, Docker, DevContainer, and VS Code.
 # 开发规范
 
 本项目采用：
@@ -425,3 +427,48 @@ DevContainer:
 - codex danger-full-access
 - 不挂 ~/.ssh
 ```
+
+
+## Branch Naming
+
+Use the following format:
+
+```text
+<type>/<short-description>
+
+Examples:
+feature/add-fastapi-app
+fix/devcontainer-workspace-mount
+docs/update-readme
+chore/rename-repository
+refactor/reorganize-app-layout
+test/add-health-test
+ci/add-github-actions
+
+Allowed types:
+feature, fix, docs, chore, refactor, test, ci, build
+
+Use lowercase English words separated by hyphens.
+```
+
+## Commit Messages
+
+Use Conventional Commits:
+<type>: <short summary>
+
+Examples:
+feat: add FastAPI health check endpoint
+fix: correct DevContainer workspace mount
+docs: update README setup guide
+chore: update gitignore rules
+refactor: reorganize app structure
+test: add health endpoint test
+ci: add GitHub Actions workflow
+build: update Docker base image
+
+Rules:
+Use lowercase type.
+Use English.
+Keep the summary short and clear.
+Do not end the summary with a period.
+One commit should contain one logical change.
