@@ -1,5 +1,14 @@
 # EIV AI Python Template
 A Python AI development template powered by uv, Docker, DevContainer, and VS Code.
+
+## 模板约定
+
+- Python 依赖只写在 `pyproject.toml`，例如 `pandas`、`fastapi`。
+- `uv.lock` 必须提交，用来固定团队环境。
+- Dev Container 创建后只执行 `uv sync`。
+- Rebuild 时复用 `uv-cache` volume；`pyproject.toml` / `uv.lock` 没变时直接使用已有环境和缓存，变了才下载新增或更新的包。
+- Codex CLI 不是 Python 包，不能写进 `pyproject.toml` 的 dependencies；模板在 Dockerfile 中安装它，不再维护额外的 Codex shell 脚本。
+
 # 开发规范
 
 本项目采用：
@@ -353,7 +362,7 @@ Host github-eiv
 
 ## Codex 规范
 
-Codex CLI 统一在 WSL 中运行：
+Codex CLI 在 Dev Container 中可直接运行：
 
 ```bash
 codex
@@ -399,7 +408,7 @@ Git 在 WSL
 
 SSH 在 WSL
 
-Codex 在 WSL
+Codex 在 Dev Container
 
 Docker 在 WSL
 
@@ -424,7 +433,7 @@ WSL:
 DevContainer:
 - /workspace 开发
 - uv / python / pytest
-- codex danger-full-access
+- codex
 - 不挂 ~/.ssh
 ```
 
